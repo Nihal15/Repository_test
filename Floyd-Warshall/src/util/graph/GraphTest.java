@@ -32,7 +32,7 @@ public class GraphTest
 		input += "CFP -contains> 30032011;";
 		input += "30032011 -isa> date;";
 		input += "AIConf -> 30032011;";
-		input += "CFP -contains> conftime;";
+		//input += "CFP -contains> conftime;";
 		Graph G = Graph.readFrom(new ByteArrayInputStream(input.getBytes()), new UnitConfigData().setName("G").setLevel(Level.INFO).setLink(unitName));
 		log.info(G.toString());
 		
