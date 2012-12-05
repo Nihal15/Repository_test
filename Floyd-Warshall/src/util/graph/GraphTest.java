@@ -22,7 +22,7 @@ public class GraphTest
 		log.trace("Hello World");
 		
 		String input = "";
-		input += "AIConf -> conftime;";
+		/*input += "AIConf -> conftime;";
 		input += "conftime -isa> interval;";
 		input += "AIConf -> CFP;";
 		input += "CFP -> AIConf;";
@@ -32,7 +32,29 @@ public class GraphTest
 		input += "CFP -contains> 30032011;";
 		input += "30032011 -isa> date;";
 		input += "AIConf -> 30032011;";
-		//input += "CFP -contains> conftime;";
+		input += "CFP -contains> conftime;";*/
+		
+		/*input += "AIConf -2> conftime;";
+		input += "conftime -1> interval;";
+		input += "AIConf -4> CFP;";
+		input += "CFP -4> AIConf;";
+		input += "CFP -1> document;";
+		input += "CFP -2> 05012011;";
+		input += "05012011 -1> date;";
+		input += "CFP -3> 30032011;";
+		input += "30032011 -1> date;";
+		input += "AIConf -6> 30032011;";
+		input += "CFP -2> conftime;";*/
+		
+		input += "1 -2> 2;";
+		input += "1 -1> 6;";
+		input += "1 -4> 4;";
+		input += "2 -1> 3;";
+		input += "2 -1> 5;";
+		input += "4 -2> 3;";
+		input += "5 -1> 4;";
+		input += "6 -1> 5;";
+		
 		Graph G = Graph.readFrom(new ByteArrayInputStream(input.getBytes()), new UnitConfigData().setName("G").setLevel(Level.INFO).setLink(unitName));
 		log.info(G.toString());
 		
@@ -40,8 +62,9 @@ public class GraphTest
 		configT.setName(Unit.DEFAULT_UNIT_NAME).setLink(unitName).setLevel(Level.ERROR);
 		TextGraphRepresentation GRT = new TextGraphRepresentation(configT);
 		log.info(GRT.displayRepresentation());
-	/*	
-		GraphPattern GP = new GraphPattern(new UnitConfigData("GP").setLevel(Level.INFO).setLink(unitName));
+		
+		FloydWarshall.initializeGraph(G);		
+		/*GraphPattern GP = new GraphPattern(new UnitConfigData("GP").setLevel(Level.INFO).setLink(unitName));
 		NodeP nConf = new NodeP();
 		NodeP nDeadline = new NodeP();
 		NodeP nCFP = new NodeP();
