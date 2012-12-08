@@ -253,51 +253,54 @@ public class Graph extends Unit
 		Graph g = new Graph(unitConfig);
 		Logger log = g.log;
 		Scanner scan = new Scanner(input);
+		
 		while(scan.hasNextLine())
 		{
 			String line = scan.nextLine();
+
 			String edgeReads[] = line.split(";");
 			for(String edgeRead : edgeReads)
 			{
-				log.trace("new edge: " + edgeRead);
+				log.trace("new edge: " + edgeRead); 
 				
-				String[] parts1 = edgeRead.split("-", 2);
-				if(parts1.length < 2)
+				String[] parts1 = edgeRead.split("-", 2);  // tot ce e intre -
+				if(parts1.length < 2) // vede daca exista al 2 lea nod
 				{
-					log.error("input corrupted");
+					log.error("input corrupted"); 
 					continue;
 				}
 				String node1name = parts1[0].trim();
 				String node2name = null;
 				String edgeName = null;
 				boolean bidirectional = false;
-				String[] parts2 = parts1[1].split(">");
-				if((parts2.length < 1) || (parts2.length > 2))
+				String[] parts2 = parts1[1].split(">"); // tot ce e dupa -
+				if((parts2.length < 1) || (parts2.length > 2)) // verifica daca dupa - avem nod si eventual o eticheta a muchiei
 				{
-					log.error("input corrupted");
+					log.error("input corrupted"); 
 					continue;
 				}
 				
 				Node node1 = null;
 				Node node2 = null;
 				
-				if(parts2.length == 2)
+				if(parts2.length == 2) //verifica daca dupa - avem nod si eticheta a muchiei
 				{
 					edgeName = parts2[0].trim();
 					node2name = parts2[1].trim();
 				}
-				else
+				else // caz particular????
 				{
 					bidirectional = true;
-					parts2 = parts1[1].split("-");
+					parts2 = parts1[1].split("-"); 
 					if(parts2.length == 2)
 					{
 						edgeName = parts2[0].trim();
 						node2name = parts2[1].trim();
 					}
-					else
+					else 
 						node2name = parts2[0].trim();
 				}
+				
 				if((edgeName != null) && (edgeName.length() == 0))
 					edgeName = null;
 				// log.trace("[" + parts1.toString() + "] [" + parts2.toString() + "]");

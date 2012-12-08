@@ -5,7 +5,8 @@ public class FloydWarshall {
 	
 	private static Graph graph;
 	private static int n;
-	private static int[][] costsmatrix,pathmatrix;
+	private static double[][] costsmatrix;
+	private static int[][] pathmatrix;
 	
 	public FloydWarshall(){
 		graph = null;
@@ -14,12 +15,14 @@ public class FloydWarshall {
 	public static void initializeGraph(Graph g){
 		graph = g;
 		n = graph.getNodes().size();
-		costsmatrix = new int[n][n];
+		costsmatrix = new double[n][n];
 		pathmatrix = new int[n][n];
 		calculateCostsMatrix();
-		writeCostsMatrix();
+		writecostsMatrix();
+		writepathMatrix();
 		FW();
-		writeCostsMatrix();
+		writecostsMatrix();
+		writepathMatrix();
 		writePaths();
 	}
 	
@@ -27,7 +30,7 @@ public class FloydWarshall {
 	{
 		for(Edge edge:graph.getEdges())
 		{
-			costsmatrix[Integer.parseInt(edge.getFrom().getLabel())-1][Integer.parseInt(edge.getTo().getLabel())-1] = Integer.parseInt(edge.getLabel());
+			costsmatrix[Integer.parseInt(edge.getFrom().getLabel())-1][Integer.parseInt(edge.getTo().getLabel())-1] = Double.parseDouble(edge.getLabel());
 			
 		}
 		
@@ -35,19 +38,30 @@ public class FloydWarshall {
 		 for(int j=0;j<n;j++)
 			 {
 			 	if(costsmatrix[i][j]==0 && i!=j) 
-			 		costsmatrix[i][j]=1000;
-			 	if(costsmatrix[i][j]!=1000 && i!=j) pathmatrix[i][j]=i;
+			 		costsmatrix[i][j]=Double.POSITIVE_INFINITY;
+			 	if(costsmatrix[i][j]!=Double.POSITIVE_INFINITY && i!=j) pathmatrix[i][j]=(i+1);
 			
 			 }
 				 
 	}
 	
-	private static void writeCostsMatrix()
+	private static void writecostsMatrix()
 	{
 		for(int i=0;i<n;i++)
 			{ 
 				for(int j=0;j<n;j++)
 					System.out.print(costsmatrix[i][j]+" ");
+			  		System.out.println();
+			}
+		System.out.println();
+	}
+	
+	private static void writepathMatrix()
+	{
+		for(int i=0;i<n;i++)
+			{ 
+				for(int j=0;j<n;j++)
+					System.out.print(pathmatrix[i][j]+" ");
 			  		System.out.println();
 			}
 		System.out.println();
@@ -61,25 +75,28 @@ public class FloydWarshall {
 					if(i!=j && i!=k && k!=j && costsmatrix[i][j]>costsmatrix[i][k]+costsmatrix[k][j])
 						{ 
 							costsmatrix[i][j]=costsmatrix[i][k]+costsmatrix[k][j];
-							pathmatrix[i][j]=pathmatrix[k][j];
+							pathmatrix[i][j]= pathmatrix[k][j];
 						}	
 	}
 	
 	private static void path(int i,int j)
 	{
-		if(i!=j) 
+		
+		
+		if(i != j) 
 		{
-			path(i,pathmatrix[i][j]);
-			System.out.print((pathmatrix[i][j]+1)+" ");
+			int l = pathmatrix[i][j]-1;
+			path(i, l);
+			System.out.print(pathmatrix[i][j]+" ");
 		}
 	}
 	
 	private static void writePaths()
 	{
 		for(int i=0;i<n;i++)
-			for(int j=0;j<n && i!=j;j++)
+			for(int j=0;j<n;j++)
 			{
-				if(pathmatrix[i][j]==0)
+				if(pathmatrix[i][j]== 0)
 					System.out.println("There is no path between "+(i+1)+" and "+(j+1)+".");
 				else 
 					{
@@ -89,5 +106,6 @@ public class FloydWarshall {
 					}
 			}
 	}
+
 	
 }
